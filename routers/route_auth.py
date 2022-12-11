@@ -58,4 +58,3 @@ def get_user_refresh_jwt(request: Request, response: Response):
         key="access_token", value=f"Bearer {new_token}", httponly=True, samesite="none", secure=True
     )
     return {"email": subject}
-

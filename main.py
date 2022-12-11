@@ -5,9 +5,9 @@ from routers import route_todo, route_auth
 from schemas import SuccessMsg, CsrfSettings
 from fastapi_csrf_protect import CsrfProtect
 from fastapi_csrf_protect.exceptions import CsrfProtectError
-import uvicorn
 
 app = FastAPI()
+
 # route_todo.pyにあるrouter = APIRouter()のインスタンスを受け取っている
 app.include_router(route_todo.router)
 app.include_router(route_auth.router)
@@ -36,7 +36,3 @@ def csrf_protect_exception_handler(request: Request, exc: CsrfProtectError):
 @app.get("/", response_model=SuccessMsg)
 def root():
     return {"message": "welcome to Fast API"}
-
-
-# if __name__ == "__main__":
-#     uvicorn.run(app, host="0.0.0.0", port=8000)

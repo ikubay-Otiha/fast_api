@@ -4,7 +4,7 @@ from decouple import config
 CSRF_KEY = config("CSRF_KEY")
 
 class CsrfSettings(BaseModel):
-    secret_key: str=CSRF_KEY
+    secret_key: str = CSRF_KEY
 
 # responseで帰ってくるjsonデータをstr型にする
 class Todo(BaseModel):
@@ -29,4 +29,4 @@ class UserInfo(BaseModel):
     email: str
 
 class Csrf(BaseModel):
-    csrf_token = str
+    csrf_token: str
