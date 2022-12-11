@@ -1,5 +1,10 @@
 from pydantic import BaseModel
 from typing import Optional
+from decouple import config
+CSRF_KEY = config("CSRF_KEY")
+
+class CsrfSettings(BaseModel):
+    secret_key: str=CSRF_KEY
 
 # responseで帰ってくるjsonデータをstr型にする
 class Todo(BaseModel):
@@ -22,3 +27,6 @@ class UserBody(BaseModel):
 class UserInfo(BaseModel):
     id: Optional[str] = None
     email: str
+
+class Csrf(BaseModel):
+    csrf_token = str
