@@ -34,6 +34,7 @@ async def login(request: Request, response: Response, user: UserBody, csrf_prote
     csrf_protect.validate_csrf(csrf_token)
     user = jsonable_encoder(user)
     token = await db_login(user)
+    # Backendからcookieを設定する。
     response.set_cookie(
         key="access_token", value=f"Bearer {token}", httponly=True, samesite="none", secure=True
     )
