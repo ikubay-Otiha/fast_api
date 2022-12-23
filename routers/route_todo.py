@@ -25,7 +25,7 @@ async def create_todo(request: Request, response: Response, data: TodoBody, csrf
     response.status_code = HTTP_201_CREATED
     # 新しく生成されたtokenでcookieの内容を書き換える
     response.set_cookie(
-        key="access_token", value="Bearer {new_token}", httponly=True, samesite="none", secure=True
+        key="access_token", value=f"Bearer {new_token}", httponly=True, samesite="none", secure=True
     )
 
     if res:
@@ -63,7 +63,7 @@ async def uppate_todo(request: Request, response: Response, id: str, data:TodoBo
     )
     todo = jsonable_encoder(data)
     response.set_cookie(
-        key="access_token", value="Bearer {new_token}", httponly=True, samesite="none", secure=True
+        key="access_token", value=f"Bearer {new_token}", httponly=True, samesite="none", secure=True
     )
     res= await db_update_todo(id, todo)
     if res:
@@ -79,7 +79,7 @@ async def delete_todo(request: Request, response: Response, id: str, csrf_protec
     )
     res = await db_delete_todo(id)
     response.set_cookie(
-        key="access_token", value="Bearer {new_token}", httponly=True, samesite="none", secure=True
+        key="access_token", value=f"Bearer {new_token}", httponly=True, samesite="none", secure=True
     )
     if res:
         return {"message": "Successfully deleted."}
