@@ -63,9 +63,12 @@ async def db_update_todo(id: str, data: dict) -> Union[dict, bool]:
         update_todo = await collection_todo.update_one(
             {"_id": ObjectId(id)}, {"$set": data}
         )
+        # .modefied属性には実際に更新することができたドキュメントの数が入っている。これが0以上であれば更新が成功したと判定
         if (update_todo.modified_count > 0):
             new_todo = await collection_todo.find_one({"_id": ObjectId(id)})
             return todo_serializer(new_todo)
+        elif (todo == data):
+            return HTTPException(status_code=401, detail="Object was not updated.")
     return False
 
 async def db_delete_todo(id: str) -> bool:
