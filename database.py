@@ -56,15 +56,17 @@ async def db_get_single_todo(id: str) -> Union[dict, bool]:
         return False
     
 async def db_update_todo(id: str, data: dict) -> Union[dict, bool]:
+    # 引数で受け取ったidのオブジェクトが存在するかfind_oneで検証、なければNoneがセットされる
     todo = await collection_todo.find_one({"_id": ObjectId(id)})
     if todo:
+        # MongoDBのDB更新をcollection_todo.update_oneで実行,Object(id)をDBのidへ、dataをsetへセット
         update_todo = await collection_todo.update_one(
             {"_id": ObjectId(id)}, {"$set": data}
         )
         if (update_todo.modified_count > 0):
             new_todo = await collection_todo.find_one({"_id": ObjectId(id)})
             return todo_serializer(new_todo)
-        return False
+    return False
 
 async def db_delete_todo(id: str) -> bool:
     todo = await collection_todo.find_one({"_id": ObjectId(id)})
